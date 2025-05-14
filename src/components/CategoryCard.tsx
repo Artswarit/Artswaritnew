@@ -1,27 +1,27 @@
 
+import React from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface CategoryCardProps {
   title: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
   count: number;
   slug: string;
-  color?: string;
 }
 
-const CategoryCard = ({ title, icon, count, slug, color = "bg-artswarit-purple" }: CategoryCardProps) => {
+const CategoryCard = ({ title, icon, count, slug }: CategoryCardProps) => {
   return (
-    <Link to={`/category/${slug}`}>
-      <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-        <CardContent className="p-6 flex items-center space-x-4">
-          <div className={`${color} h-12 w-12 rounded-full flex items-center justify-center text-white`}>
+    <Link to={`/categories/${slug}`}>
+      <Card className="glass-card overflow-hidden hover-lift transition-all duration-300 h-full">
+        <CardContent className="p-6 flex flex-col items-center justify-center text-center">
+          <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-md mb-4">
             {icon}
           </div>
-          <div>
-            <h3 className="font-heading text-lg font-medium">{title}</h3>
-            <p className="text-sm text-muted-foreground">{count} artists</p>
-          </div>
+          <h3 className="font-heading font-semibold text-lg mb-1">{title}</h3>
+          <p className="text-muted-foreground text-sm">
+            {count.toLocaleString()} artists
+          </p>
         </CardContent>
       </Card>
     </Link>

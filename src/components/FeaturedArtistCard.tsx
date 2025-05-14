@@ -1,7 +1,6 @@
 
+import React from "react";
 import { Link } from "react-router-dom";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface FeaturedArtistCardProps {
@@ -22,38 +21,43 @@ const FeaturedArtistCard = ({
   premium = false,
 }: FeaturedArtistCardProps) => {
   return (
-    <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg">
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <img
-          src={imageUrl}
-          alt={`${name}'s profile`}
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-        />
-        <div className="absolute top-3 right-3 flex space-x-2">
-          {verified && (
-            <Badge variant="outline" className="badge-verified">
-              Verified
-            </Badge>
-          )}
-          {premium && (
-            <Badge variant="outline" className="badge-premium">
-              Premium
-            </Badge>
-          )}
+    <Link to={`/artist/${id}`}>
+      <Card className="glass-card overflow-hidden hover-lift h-full">
+        <div className="relative aspect-square overflow-hidden">
+          <img
+            src={imageUrl}
+            alt={name}
+            className="object-cover w-full h-full transition-transform duration-700 hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+          
+          <div className="absolute top-3 right-3 flex gap-2">
+            {verified && (
+              <span className="badge badge-verified">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3 mr-1">
+                  <path fillRule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
+                </svg>
+                Verified
+              </span>
+            )}
+            
+            {premium && (
+              <span className="badge badge-premium">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3 mr-1">
+                  <path fillRule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clipRule="evenodd" />
+                </svg>
+                Premium
+              </span>
+            )}
+          </div>
         </div>
-      </div>
-      <CardContent className="p-4">
-        <h3 className="font-heading text-lg font-semibold mb-1">
-          <Link to={`/artist/${id}`} className="hover:text-artswarit-purple">
-            {name}
-          </Link>
-        </h3>
-        <p className="text-sm text-muted-foreground mb-4">{category}</p>
-        <Button asChild className="w-full" size="sm" variant="outline">
-          <Link to={`/artist/${id}`}>View Profile</Link>
-        </Button>
-      </CardContent>
-    </Card>
+
+        <CardContent className="p-4">
+          <h3 className="font-heading font-semibold text-lg line-clamp-1">{name}</h3>
+          <p className="text-muted-foreground text-sm">{category}</p>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
 

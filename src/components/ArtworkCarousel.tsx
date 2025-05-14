@@ -1,5 +1,7 @@
 
 import { useRef } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
@@ -46,13 +48,23 @@ const ArtworkCarousel = () => {
   const carouselRef = useRef(null);
 
   return (
-    <section className="py-16 bg-gradient-to-r from-blue-50 to-purple-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4 text-gradient-blue">Featured Artwork</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Explore stunning creations from our talented artists
-          </p>
+    <section className="py-20 bg-gradient-to-r from-violet-50 via-white to-indigo-50 relative overflow-hidden">
+      <div className="absolute inset-0 opacity-50">
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-violet-300/20 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-indigo-300/20 rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="flex justify-between items-center mb-12">
+          <div>
+            <h2 className="section-title">Featured Artwork</h2>
+            <p className="section-subtitle">
+              Explore stunning creations from our talented artists
+            </p>
+          </div>
+          <Button asChild variant="outline" className="hidden md:flex border-primary hover:bg-primary hover:text-white transition-all duration-300">
+            <Link to="/gallery">View All Artwork</Link>
+          </Button>
         </div>
         
         <Carousel
@@ -64,24 +76,30 @@ const ArtworkCarousel = () => {
         >
           <CarouselContent>
             {featuredArtwork.map((artwork) => (
-              <CarouselItem key={artwork.id} className="md:basis-1/2 lg:basis-1/3">
-                <div className="artwork-card relative group h-[400px] rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl">
+              <CarouselItem key={artwork.id} className="md:basis-1/2 lg:basis-1/3 pl-4">
+                <div className="artwork-card h-[450px] rounded-2xl overflow-hidden shadow-lg transition-all duration-500 neo-blur-sm">
                   <img 
                     src={artwork.imageUrl} 
                     alt={artwork.title} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                    <h3 className="text-white text-xl font-semibold">{artwork.title}</h3>
-                    <p className="text-gray-200">by {artwork.artist}</p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                    <h3 className="text-white text-2xl font-semibold">{artwork.title}</h3>
+                    <p className="text-gray-200 text-lg">by {artwork.artist}</p>
                   </div>
                 </div>
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-2 bg-white/20 backdrop-blur-md border border-white/30 text-white hover:bg-white/40" />
-          <CarouselNext className="right-2 bg-white/20 backdrop-blur-md border border-white/30 text-white hover:bg-white/40" />
+          <CarouselPrevious className="left-2 bg-white/80 backdrop-blur-md border border-white/30 text-primary hover:bg-white/90" />
+          <CarouselNext className="right-2 bg-white/80 backdrop-blur-md border border-white/30 text-primary hover:bg-white/90" />
         </Carousel>
+        
+        <div className="mt-12 text-center md:hidden">
+          <Button asChild variant="outline" className="border-primary hover:bg-primary hover:text-white transition-all duration-300">
+            <Link to="/gallery">View All Artwork</Link>
+          </Button>
+        </div>
       </div>
     </section>
   );

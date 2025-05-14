@@ -8,21 +8,21 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
+    <header className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm">
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0 flex items-center">
-              <span className="font-heading font-bold text-2xl text-artswarit-purple">Artswarit</span>
+              <span className="font-heading font-bold text-2xl text-gradient-purple">Artswarit</span>
             </Link>
             <div className="hidden sm:ml-10 sm:flex sm:space-x-8">
-              <Link to="/explore" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-artswarit-purple">
+              <Link to="/explore" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
                 Explore
               </Link>
-              <Link to="/categories" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-artswarit-purple">
+              <Link to="/categories" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
                 Categories
               </Link>
-              <Link to="/about" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-artswarit-purple">
+              <Link to="/about" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
                 About
               </Link>
             </div>
@@ -32,23 +32,23 @@ const Navbar = () => {
               <input
                 type="text"
                 placeholder="Search artists..."
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-artswarit-purple focus:border-transparent"
+                className="pl-10 pr-4 py-2 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary/70 focus:border-transparent bg-white/80"
               />
               <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
                 <Search size={16} />
               </div>
             </div>
-            <Button asChild variant="ghost">
+            <Button asChild variant="ghost" className="hover:bg-primary/10 hover:text-primary">
               <Link to="/login">Log in</Link>
             </Button>
-            <Button asChild>
+            <Button asChild className="bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all">
               <Link to="/signup">Sign up</Link>
             </Button>
           </div>
           <div className="flex items-center sm:hidden">
             <button
               type="button"
-              className="p-2 rounded-md text-gray-400 hover:text-artswarit-purple focus:outline-none"
+              className="p-2 rounded-md text-gray-500 hover:text-primary focus:outline-none"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -59,25 +59,25 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="sm:hidden bg-white border-b border-gray-100">
+        <div className="sm:hidden bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-lg">
           <div className="pt-2 pb-4 space-y-1">
             <Link
               to="/explore"
-              className="block pl-3 pr-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-artswarit-purple"
+              className="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
               onClick={() => setIsOpen(false)}
             >
               Explore
             </Link>
             <Link
               to="/categories"
-              className="block pl-3 pr-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-artswarit-purple"
+              className="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
               onClick={() => setIsOpen(false)}
             >
               Categories
             </Link>
             <Link
               to="/about"
-              className="block pl-3 pr-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-artswarit-purple"
+              className="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
               onClick={() => setIsOpen(false)}
             >
               About
@@ -91,14 +91,14 @@ const Navbar = () => {
               <div className="ml-3 space-y-2">
                 <Link
                   to="/login"
-                  className="block text-base font-medium text-gray-500 hover:text-artswarit-purple"
+                  className="block text-base font-medium text-gray-600 hover:text-primary"
                   onClick={() => setIsOpen(false)}
                 >
                   Log in
                 </Link>
                 <Link
                   to="/signup"
-                  className="block text-base font-medium text-artswarit-purple hover:text-artswarit-purple-dark"
+                  className="block text-base font-medium text-primary"
                   onClick={() => setIsOpen(false)}
                 >
                   Sign up
