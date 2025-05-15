@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
@@ -113,16 +114,24 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-artswarit-purple to-blue-500">
-              Explore Categories
+              Important Categories
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Find the perfect creative professional for your project from our diverse categories.
+            <p className="text-lg font-serif text-muted-foreground max-w-2xl mx-auto">
+              Find the perfect creative professional for your project from our diverse selection of specialized talents.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
-            {categories.map((category, index) => (
+            {categories.slice(0, 6).map((category, index) => (
               <CategoryCard key={index} {...category} />
             ))}
+          </div>
+          <div className="text-center mt-8">
+            <p className="text-lg italic text-muted-foreground mb-4">
+              ...and many more categories to explore with thousands of talented artists
+            </p>
+            <Button asChild variant="outline" size="lg" className="border-artswarit-purple text-artswarit-purple hover:bg-artswarit-purple hover:text-white transition-all">
+              <Link to="/categories">View All Categories</Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -203,7 +212,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA Section - Enhanced styling */}
+      {/* CTA Section - Enhanced styling with both CTAs */}
       <section className="bg-gradient-to-r from-artswarit-purple to-blue-500 text-white py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-3xl mx-auto relative">
@@ -220,7 +229,7 @@ const Index = () => {
                 <Link to="/signup">Join as Artist</Link>
               </Button>
               <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-artswarit-purple">
-                <Link to="/explore">Explore Creators</Link>
+                <Link to="/client-signup">Join as Client</Link>
               </Button>
             </div>
           </div>

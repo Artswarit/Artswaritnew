@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Search, Menu, X, User } from "lucide-react";
+import { Search, Menu, X, User, Home, TrendingUp, Sparkles } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,14 +16,21 @@ const Navbar = () => {
               <span className="font-heading font-bold text-2xl text-gradient-purple">Artswarit</span>
             </Link>
             <div className="hidden sm:ml-10 sm:flex sm:space-x-8">
+              <Link to="/" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
+                <Home className="mr-1 h-4 w-4" />
+                Home
+              </Link>
+              <Link to="/artists" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
+                <User className="mr-1 h-4 w-4" />
+                Artists
+              </Link>
               <Link to="/explore" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
+                <Sparkles className="mr-1 h-4 w-4" />
                 Explore
               </Link>
-              <Link to="/categories" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
-                Categories
-              </Link>
-              <Link to="/about" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
-                About
+              <Link to="/trending" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
+                <TrendingUp className="mr-1 h-4 w-4" />
+                Trending
               </Link>
             </div>
           </div>
@@ -62,25 +69,36 @@ const Navbar = () => {
         <div className="sm:hidden bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-lg">
           <div className="pt-2 pb-4 space-y-1">
             <Link
-              to="/explore"
-              className="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
+              to="/"
+              className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
               onClick={() => setIsOpen(false)}
             >
+              <Home className="mr-2 h-4 w-4" />
+              Home
+            </Link>
+            <Link
+              to="/artists"
+              className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
+              onClick={() => setIsOpen(false)}
+            >
+              <User className="mr-2 h-4 w-4" />
+              Artists
+            </Link>
+            <Link
+              to="/explore"
+              className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
+              onClick={() => setIsOpen(false)}
+            >
+              <Sparkles className="mr-2 h-4 w-4" />
               Explore
             </Link>
             <Link
-              to="/categories"
-              className="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
+              to="/trending"
+              className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
               onClick={() => setIsOpen(false)}
             >
-              Categories
-            </Link>
-            <Link
-              to="/about"
-              className="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
-              onClick={() => setIsOpen(false)}
-            >
-              About
+              <TrendingUp className="mr-2 h-4 w-4" />
+              Trending
             </Link>
           </div>
           <div className="pt-4 pb-3 border-t border-gray-200">
