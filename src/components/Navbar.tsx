@@ -6,6 +6,16 @@ import { Search, Menu, X, User, Home, TrendingUp, Sparkles } from "lucide-react"
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  
+  // Smooth scroll function for featured artists section
+  const scrollToFeaturedArtists = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const featuredArtistsSection = document.getElementById('featured-artists');
+    if (featuredArtistsSection) {
+      featuredArtistsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+    setIsOpen(false);
+  };
 
   return (
     <header className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm">
@@ -20,10 +30,14 @@ const Navbar = () => {
                 <Home className="mr-1 h-4 w-4" />
                 Home
               </Link>
-              <Link to="/explore" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
+              <a 
+                href="#featured-artists" 
+                onClick={scrollToFeaturedArtists}
+                className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200"
+              >
                 <User className="mr-1 h-4 w-4" />
                 Artists
-              </Link>
+              </a>
               <Link to="/explore" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
                 <Sparkles className="mr-1 h-4 w-4" />
                 Explore
@@ -76,14 +90,14 @@ const Navbar = () => {
               <Home className="mr-2 h-4 w-4" />
               Home
             </Link>
-            <Link
-              to="/explore"
+            <a
+              href="#featured-artists"
+              onClick={scrollToFeaturedArtists}
               className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
-              onClick={() => setIsOpen(false)}
             >
               <User className="mr-2 h-4 w-4" />
               Artists
-            </Link>
+            </a>
             <Link
               to="/explore"
               className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"

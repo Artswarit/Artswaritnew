@@ -18,6 +18,7 @@ const featuredArtists = [
     imageUrl: "https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     verified: true,
     premium: true,
+    followers: 12543,
   },
   {
     id: "2",
@@ -26,6 +27,7 @@ const featuredArtists = [
     imageUrl: "https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
     verified: true,
     premium: false,
+    followers: 8765,
   },
   {
     id: "3",
@@ -34,6 +36,7 @@ const featuredArtists = [
     imageUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     verified: false,
     premium: true,
+    followers: 6421,
   },
   {
     id: "4",
@@ -42,6 +45,7 @@ const featuredArtists = [
     imageUrl: "https://images.unsplash.com/photo-1573496358961-3c82861ab8f4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80",
     verified: false,
     premium: false,
+    followers: 3827,
   },
 ];
 
@@ -83,8 +87,8 @@ const Index = () => {
       
       <AnimatedHeroSlider />
       
-      {/* Featured Artists Section */}
-      <section className="container mx-auto px-4 py-16 sm:px-6 lg:px-8 mt-8">
+      {/* Featured Artists Section - Added ID for scroll targeting */}
+      <section id="featured-artists" className="container mx-auto px-4 py-16 sm:px-6 lg:px-8 mt-8">
         <div className="text-center mb-12">
           <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-artswarit-purple to-blue-500">
             Featured Artists

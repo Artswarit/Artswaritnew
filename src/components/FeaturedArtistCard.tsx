@@ -2,6 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
+import { Users } from "lucide-react";
 
 interface FeaturedArtistCardProps {
   id: string;
@@ -10,6 +11,7 @@ interface FeaturedArtistCardProps {
   imageUrl: string;
   verified?: boolean;
   premium?: boolean;
+  followers?: number;
 }
 
 const FeaturedArtistCard = ({
@@ -19,6 +21,7 @@ const FeaturedArtistCard = ({
   imageUrl,
   verified = false,
   premium = false,
+  followers = 0,
 }: FeaturedArtistCardProps) => {
   return (
     <Link to={`/artist/${id}`}>
@@ -55,6 +58,12 @@ const FeaturedArtistCard = ({
         <CardContent className="p-4">
           <h3 className="font-heading font-semibold text-lg line-clamp-1">{name}</h3>
           <p className="text-muted-foreground text-sm">{category}</p>
+          
+          {/* Followers count */}
+          <div className="flex items-center gap-1.5 mt-2 text-sm text-muted-foreground">
+            <Users size={14} />
+            <span>{followers.toLocaleString()} followers</span>
+          </div>
         </CardContent>
       </Card>
     </Link>
