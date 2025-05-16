@@ -63,7 +63,7 @@ const ArtworkCarousel = () => {
             </p>
           </div>
           <Button asChild variant="outline" className="hidden md:flex border-primary hover:bg-primary hover:text-white transition-all duration-300">
-            <Link to="/gallery">View All Artwork</Link>
+            <Link to="/explore">View All Artwork</Link>
           </Button>
         </div>
         
@@ -97,7 +97,7 @@ const ArtworkCarousel = () => {
         
         <div className="mt-12 text-center md:hidden">
           <Button asChild variant="outline" className="border-primary hover:bg-primary hover:text-white transition-all duration-300">
-            <Link to="/gallery">View All Artwork</Link>
+            <Link to="/explore">View All Artwork</Link>
           </Button>
         </div>
       </div>

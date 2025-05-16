@@ -51,15 +51,7 @@ const Login = () => {
                 />
               </div>
               <div>
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
-                  <Link
-                    to="/forgot-password"
-                    className="text-sm font-medium text-artswarit-purple hover:text-artswarit-purple-dark"
-                  >
-                    Forgot your password?
-                  </Link>
-                </div>
+                <Label htmlFor="password">Password</Label>
                 <Input
                   id="password"
                   type="password"
@@ -69,6 +61,14 @@ const Login = () => {
                   required
                   className="mt-1"
                 />
+                <div className="flex justify-end mt-1">
+                  <Link
+                    to="/forgot-password"
+                    className="text-sm font-medium text-artswarit-purple hover:text-artswarit-purple-dark"
+                  >
+                    Forgot your password?
+                  </Link>
+                </div>
               </div>
               <div className="flex items-center space-x-2">
                 <Checkbox
@@ -91,21 +91,23 @@ const Login = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <Button variant="outline" className="w-full">
-                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
-                  <path
-                    fill="currentColor"
-                    d="M12.545,12.151L12.545,12.151c0,1.054,0.952,1.91,2.127,1.91h2.508v-3.817h-2.508 C13.497,10.244,12.545,11.097,12.545,12.151 M12.545,6.729v3.515h4.635V6.729H12.545z M6.823,6.729v3.515h4.635V6.729H6.823z M6.823,12.151L6.823,12.151c0,1.054,0.952,1.91,2.127,1.91h2.508v-3.817H8.95C7.775,10.244,6.823,11.097,6.823,12.151 M17.18,12.151c0-1.054-0.954-1.907-2.127-1.907h-2.508v3.817h2.508C16.226,14.061,17.18,13.205,17.18,12.151 M6.823,17.570 v-3.515h4.635v3.515H6.823z M12.545,14.061v3.515h4.635v-3.515H12.545z"
-                  />
+              <Button variant="outline" className="w-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px" className="mr-2">
+                  <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+                  <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+                  <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+                  <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
                 </svg>
                 Google
               </Button>
-              <Button variant="outline" className="w-full">
-                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
-                  <path
-                    fill="currentColor"
-                    d="M21.543 6.498C22 8.28 22 12 22 12s0 3.72-.457 5.502c-.254.985-.997 1.76-1.938 2.022C17.896 20 12 20 12 20s-5.893 0-7.605-.476c-.945-.266-1.687-1.04-1.938-2.022C2 15.72 2 12 2 12s0-3.72.457-5.502c.254-.985.997-1.76 1.938-2.022C6.107 4 12 4 12 4s5.896 0 7.605.476c.945.266 1.687 1.04 1.938 2.022zM10 15.5l6-3.5-6-3.5v7z"
-                  />
+              <Button variant="outline" className="w-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px" className="mr-2">
+                  <linearGradient id="Ld6sqrtcxMyckEl6xeDdMa" x1="9.993" x2="40.615" y1="9.993" y2="40.615" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" stopColor="#2aa4f4"/>
+                    <stop offset="1" stopColor="#007ad9"/>
+                  </linearGradient>
+                  <path fill="url(#Ld6sqrtcxMyckEl6xeDdMa)" d="M24,4C12.954,4,4,12.954,4,24s8.954,20,20,20s20-8.954,20-20S35.046,4,24,4z"/>
+                  <path fill="#fff" d="M26.707,29.301h5.176l0.813-5.258h-5.989v-2.874c0-2.184,0.714-4.121,2.757-4.121h3.283V12.46 c-0.577-0.078-1.797-0.248-4.102-0.248c-4.814,0-7.636,2.542-7.636,8.334v3.498H16.06v5.258h4.948v14.452 C21.988,43.9,22.981,44,24,44c0.921,0,1.82-0.084,2.707-0.204V29.301z"/>
                 </svg>
                 Facebook
               </Button>

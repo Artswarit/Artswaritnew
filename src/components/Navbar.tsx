@@ -20,7 +20,7 @@ const Navbar = () => {
                 <Home className="mr-1 h-4 w-4" />
                 Home
               </Link>
-              <Link to="/artists" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
+              <Link to="/explore" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
                 <User className="mr-1 h-4 w-4" />
                 Artists
               </Link>
@@ -77,7 +77,7 @@ const Navbar = () => {
               Home
             </Link>
             <Link
-              to="/artists"
+              to="/explore"
               className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
               onClick={() => setIsOpen(false)}
             >

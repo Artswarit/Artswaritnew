@@ -81,7 +81,6 @@ const Index = () => {
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Navbar />
       
-      {/* Hero Section - Replaced with animated slider */}
       <AnimatedHeroSlider />
       
       {/* Featured Artists Section */}
@@ -229,7 +228,7 @@ const Index = () => {
                 <Link to="/signup">Join as Artist</Link>
               </Button>
               <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-artswarit-purple">
-                <Link to="/client-signup">Join as Client</Link>
+                <Link to="/client-dashboard">Join as Client</Link>
               </Button>
             </div>
           </div>
