@@ -1,4 +1,4 @@
-
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
@@ -8,9 +8,16 @@ import CategoryCard from "@/components/CategoryCard";
 import { Music, BookOpen, Edit, Pencil } from "lucide-react";
 import AnimatedHeroSlider from "@/components/AnimatedHeroSlider";
 import ArtworkCarousel from "@/components/ArtworkCarousel";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 // Mock data - In a real application, this would come from an API
-const featuredArtists = [
+const allArtists = [
   {
     id: "1",
     name: "Alex Rivera",
@@ -19,6 +26,8 @@ const featuredArtists = [
     verified: true,
     premium: true,
     followers: 12543,
+    likes: 4580,
+    views: 28750,
   },
   {
     id: "2",
@@ -28,6 +37,8 @@ const featuredArtists = [
     verified: true,
     premium: false,
     followers: 8765,
+    likes: 3240,
+    views: 19500,
   },
   {
     id: "3",
@@ -37,6 +48,8 @@ const featuredArtists = [
     verified: false,
     premium: true,
     followers: 6421,
+    likes: 2870,
+    views: 16200,
   },
   {
     id: "4",
@@ -46,6 +59,52 @@ const featuredArtists = [
     verified: false,
     premium: false,
     followers: 3827,
+    likes: 1950,
+    views: 9800,
+  },
+  {
+    id: "5",
+    name: "Elena Rodriguez",
+    category: "Photographer",
+    imageUrl: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
+    verified: true,
+    premium: true,
+    followers: 11243,
+    likes: 4120,
+    views: 24600,
+  },
+  {
+    id: "6",
+    name: "Marcus Bell",
+    category: "Illustrator",
+    imageUrl: "https://images.unsplash.com/photo-1610088441520-4352457e7095?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+    verified: true,
+    premium: false,
+    followers: 9876,
+    likes: 3680,
+    views: 21300,
+  },
+  {
+    id: "7",
+    name: "Sarah Chen",
+    category: "Voice Artist",
+    imageUrl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+    verified: false,
+    premium: true,
+    followers: 7650,
+    likes: 3050,
+    views: 18200,
+  },
+  {
+    id: "8",
+    name: "Jamal Wilson",
+    category: "Animator",
+    imageUrl: "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+    verified: true,
+    premium: false,
+    followers: 5430,
+    likes: 2340,
+    views: 13800,
   },
 ];
 
@@ -62,6 +121,7 @@ const categories = [
   { title: "Animators", icon: <Edit size={24} />, count: 247, slug: "animators" },
 ];
 
+// Testimonials
 const testimonials = [
   {
     content: "Artswarit helped me showcase my music to a broader audience and connect with clients I never thought possible.",
@@ -81,38 +141,78 @@ const testimonials = [
 ];
 
 const Index = () => {
+  const [featuredArtists, setFeaturedArtists] = useState([]);
+  
+  // Effect to sort and update featured artists based on popularity metrics
+  useEffect(() => {
+    // Sort artists by a combined popularity score (followers, likes, views)
+    const sortedArtists = [...allArtists].sort((a, b) => {
+      const scoreA = a.followers * 0.4 + a.likes * 0.3 + a.views * 0.3;
+      const scoreB = b.followers * 0.4 + b.likes * 0.3 + b.views * 0.3;
+      return scoreB - scoreA;
+    });
+    
+    // Get top artists
+    setFeaturedArtists(sortedArtists.slice(0, 6));
+    
+    // Update featured artists periodically (every 24 hours in production)
+    const timer = setInterval(() => {
+      // In a real app, this would fetch the latest data from an API
+      const newRanking = [...allArtists].sort((a, b) => {
+        const randomFactorA = Math.random() * 0.2;
+        const randomFactorB = Math.random() * 0.2;
+        const scoreA = a.followers * 0.4 + a.likes * 0.3 + a.views * 0.3 + randomFactorA;
+        const scoreB = b.followers * 0.4 + b.likes * 0.3 + b.views * 0.3 + randomFactorB;
+        return scoreB - scoreA;
+      });
+      setFeaturedArtists(newRanking.slice(0, 6));
+    }, 60000); // Every minute for demo purposes
+    
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Navbar />
       
       <AnimatedHeroSlider />
       
-      {/* Featured Artists Section - Added ID for scroll targeting */}
+      {/* Featured Artists Section - Updated to be a carousel */}
       <section id="featured-artists" className="container mx-auto px-4 py-16 sm:px-6 lg:px-8 mt-8">
         <div className="text-center mb-12">
           <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-artswarit-purple to-blue-500">
             Featured Artists
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Discover trending creators across different categories making waves on Artswarit.
+            Discover trending creators making waves on Artswarit, updated regularly based on popularity.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredArtists.map((artist) => (
-            <FeaturedArtistCard key={artist.id} {...artist} />
-          ))}
-        </div>
-        <div className="text-center mt-10">
-          <Button asChild variant="outline" size="lg" className="border-artswarit-purple text-artswarit-purple hover:bg-artswarit-purple hover:text-white transition-all">
-            <Link to="/explore">View All Artists</Link>
-          </Button>
-        </div>
+        
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full"
+        >
+          <CarouselContent>
+            {featuredArtists.map((artist) => (
+              <CarouselItem key={artist.id} className="md:basis-1/2 lg:basis-1/3 pl-4">
+                <div className="h-full">
+                  <FeaturedArtistCard {...artist} />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="left-2 bg-white/80 backdrop-blur-md border border-white/30 text-primary hover:bg-white/90" />
+          <CarouselNext className="right-2 bg-white/80 backdrop-blur-md border border-white/30 text-primary hover:bg-white/90" />
+        </Carousel>
       </section>
       
       {/* Artwork Carousel Section */}
       <ArtworkCarousel />
 
-      {/* Categories Section - Enhanced styling */}
+      {/* Categories Section */}
       <section className="py-16 bg-gradient-to-r from-indigo-50 to-purple-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -139,7 +239,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* How It Works Section - Enhanced styling */}
+      {/* How It Works Section */}
       <section className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-artswarit-purple to-blue-500">
@@ -185,7 +285,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials Section - Enhanced styling */}
+      {/* Testimonials Section */}
       <section className="py-16 bg-gradient-to-r from-indigo-50 to-purple-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -215,7 +315,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA Section - Enhanced styling with both CTAs */}
+      {/* CTA Section */}
       <section className="bg-gradient-to-r from-artswarit-purple to-blue-500 text-white py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-3xl mx-auto relative">

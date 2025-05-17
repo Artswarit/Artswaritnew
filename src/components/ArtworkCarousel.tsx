@@ -1,4 +1,3 @@
-
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -132,12 +131,8 @@ const ArtworkCarousel = () => {
         </Carousel>
         
         <div className="mt-12 text-center md:hidden">
-          <Button 
-            variant="outline" 
-            className="border-primary hover:bg-primary hover:text-white transition-all duration-300"
-            onClick={(e) => scrollToSection(e, 'artwork')}
-          >
-            View All Artwork
+          <Button asChild variant="outline" className="border-primary hover:bg-primary hover:text-white transition-all duration-300">
+            <Link to="/explore">View All Artwork</Link>
           </Button>
         </div>
       </div>

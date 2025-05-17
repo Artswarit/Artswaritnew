@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -45,7 +44,11 @@ const Navbar = () => {
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center" onClick={() => setIsOpen(false)}>
+            <Link 
+              to="/" 
+              className="flex-shrink-0 flex items-center cursor-pointer" 
+              onClick={() => setIsOpen(false)}
+            >
               <span className="font-heading font-bold text-2xl text-gradient-purple">Artswarit</span>
             </Link>
             <div className="hidden sm:ml-10 sm:flex sm:space-x-8">
