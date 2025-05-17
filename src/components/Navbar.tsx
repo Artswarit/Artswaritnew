@@ -22,16 +22,16 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   
-  // Smooth scroll function for featured artists section
-  const scrollToFeaturedArtists = (e: React.MouseEvent) => {
+  // Improved smooth scroll function with offset for any section
+  const scrollToSection = (e: React.MouseEvent, sectionId: string) => {
     e.preventDefault();
-    const featuredArtistsSection = document.getElementById('featured-artists');
-    if (featuredArtistsSection) {
-      featuredArtistsSection.scrollIntoView({ behavior: 'smooth' });
+    const section = document.getElementById(sectionId);
+    if (section) {
+      // Set timeout to ensure DOM is ready
       setTimeout(() => {
-        // Add offset for fixed header
+        // Add offset for fixed header (80px)
         const yOffset = -80; 
-        const y = featuredArtistsSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
         window.scrollTo({ top: y, behavior: 'smooth' });
       }, 100);
     }
@@ -53,17 +53,21 @@ const Navbar = () => {
               </Link>
               <a 
                 href="#featured-artists" 
-                onClick={scrollToFeaturedArtists}
+                onClick={(e) => scrollToSection(e, 'featured-artists')}
                 className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200"
               >
                 <User className="mr-1 h-4 w-4" />
                 Artists
               </a>
-              <Link to="/explore" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
+              <a 
+                href="#artwork" 
+                onClick={(e) => scrollToSection(e, 'artwork')}
+                className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200"
+              >
                 <Sparkles className="mr-1 h-4 w-4" />
-                Explore
-              </Link>
-              <Link to="/trending" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
+                Artwork
+              </a>
+              <Link to="/explore" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
                 <TrendingUp className="mr-1 h-4 w-4" />
                 Trending
               </Link>
@@ -114,22 +118,22 @@ const Navbar = () => {
             </Link>
             <a
               href="#featured-artists"
-              onClick={scrollToFeaturedArtists}
+              onClick={(e) => scrollToSection(e, 'featured-artists')}
               className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
             >
               <User className="mr-2 h-4 w-4" />
               Artists
             </a>
-            <Link
-              to="/explore"
+            <a
+              href="#artwork"
+              onClick={(e) => scrollToSection(e, 'artwork')}
               className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
-              onClick={() => setIsOpen(false)}
             >
               <Sparkles className="mr-2 h-4 w-4" />
-              Explore
-            </Link>
+              Artwork
+            </a>
             <Link
-              to="/trending"
+              to="/explore"
               className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
               onClick={() => setIsOpen(false)}
             >
