@@ -59,7 +59,7 @@ const ArtworkCarousel = () => {
   const carouselRef = useRef(null);
 
   return (
-    <section id="artwork-section" className="py-20 bg-gradient-to-r from-violet-50 via-white to-indigo-50 relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-r from-violet-50 via-white to-indigo-50 relative overflow-hidden">
       <div className="absolute inset-0 opacity-50">
         <div className="absolute -top-40 -left-40 w-96 h-96 bg-violet-300/20 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-indigo-300/20 rounded-full blur-3xl"></div>

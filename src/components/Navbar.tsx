@@ -1,31 +1,11 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Search, Menu, X, User, Home, TrendingUp, Sparkles } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  
-  // Add scroll state to track scroll position
-  const [scrolled, setScrolled] = useState(false);
-  
-  // Track scroll position
-  useEffect(() => {
-    const handleScroll = () => {
-      const offset = window.scrollY;
-      if (offset > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
   
   // Smooth scroll function for featured artists section
   const scrollToFeaturedArtists = (e: React.MouseEvent) => {
@@ -38,7 +18,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className={`bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm transition-all duration-300 ${scrolled ? 'shadow-md' : ''}`}>
+    <header className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm">
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -87,14 +67,10 @@ const Navbar = () => {
             </Button>
           </div>
           <div className="flex items-center sm:hidden">
-            <Link to="/" className="mr-4 flex-shrink-0 flex items-center">
-              <span className="font-heading font-bold text-xl text-gradient-purple">A</span>
-            </Link>
             <button
               type="button"
               className="p-2 rounded-md text-gray-500 hover:text-primary focus:outline-none"
               onClick={() => setIsOpen(!isOpen)}
-              aria-label="Toggle menu"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>

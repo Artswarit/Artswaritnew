@@ -20,8 +20,3 @@
     animation: logo-spin infinite 20s linear;
   }
 }
-
-/* Ensure smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
