@@ -1,11 +1,26 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Search, Menu, X, User, Home, TrendingUp, Sparkles } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  
+  // Handle scroll event to change navbar appearance
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   
   // Smooth scroll function for featured artists section
   const scrollToFeaturedArtists = (e: React.MouseEvent) => {
@@ -13,16 +28,22 @@ const Navbar = () => {
     const featuredArtistsSection = document.getElementById('featured-artists');
     if (featuredArtistsSection) {
       featuredArtistsSection.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => {
+        // Add offset for fixed header
+        const yOffset = -80; 
+        const y = featuredArtistsSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }, 100);
     }
     setIsOpen(false);
   };
 
   return (
-    <header className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm">
+    <header className={`bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm transition-all duration-300 ${scrolled ? 'shadow-md' : ''}`}>
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center">
+            <Link to="/" className="flex-shrink-0 flex items-center" onClick={() => setIsOpen(false)}>
               <span className="font-heading font-bold text-2xl text-gradient-purple">Artswarit</span>
             </Link>
             <div className="hidden sm:ml-10 sm:flex sm:space-x-8">
@@ -71,6 +92,7 @@ const Navbar = () => {
               type="button"
               className="p-2 rounded-md text-gray-500 hover:text-primary focus:outline-none"
               onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -78,9 +100,9 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile menu */}
+      {/* Mobile menu - Now with fixed position when open */}
       {isOpen && (
-        <div className="sm:hidden bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-lg">
+        <div className="sm:hidden bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-lg fixed w-full left-0 z-50 max-h-[calc(100vh-4rem)] overflow-y-auto">
           <div className="pt-2 pb-4 space-y-1">
             <Link
               to="/"
