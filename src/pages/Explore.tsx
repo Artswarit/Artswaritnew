@@ -155,7 +155,7 @@ const Explore = () => {
       <Navbar />
       
       <main className="flex-1 bg-gradient-to-br from-blue-50 via-white to-purple-50">
-        <div className="container mx-auto sm:px-6 lg:px-8 py-0 px-0">
+        <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
           {/* Page header */}
           <div className="text-center mb-8 mx-0 my-[35px]">
             <h1 className="font-heading text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-artswarit-purple to-blue-500">
@@ -167,7 +167,7 @@ const Explore = () => {
           </div>
 
           {/* Search and filter section */}
-          <div className="mb-8 mx-0 my-0 rounded-none">
+          <div className="mb-8">
             <div className="relative max-w-xl mx-auto mb-6">
               <Input type="text" placeholder="Search artworks by title or artist..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-10 pr-4 py-2 text-sm backdrop-blur-sm bg-white/80 border-blue-100 focus:border-artswarit-purple" />
               <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
