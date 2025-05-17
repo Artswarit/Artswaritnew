@@ -33,13 +33,15 @@ const Navbar = () => {
         const yOffset = -80; 
         const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
         window.scrollTo({ top: y, behavior: 'smooth' });
+        
+        // Close mobile menu after navigation
+        setIsOpen(false);
       }, 100);
     }
-    setIsOpen(false);
   };
 
   return (
-    <header className={`bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm transition-all duration-300 ${scrolled ? 'shadow-md' : ''}`}>
+    <header className={`fixed top-0 left-0 right-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-100 z-50 shadow-sm transition-all duration-300 ${scrolled ? 'shadow-md' : ''}`}>
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">

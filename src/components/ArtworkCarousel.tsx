@@ -55,6 +55,19 @@ const featuredArtwork = [
   },
 ];
 
+// Helper function for scrolling
+const scrollToSection = (e: React.MouseEvent, sectionId: string) => {
+  e.preventDefault();
+  const section = document.getElementById(sectionId);
+  if (section) {
+    setTimeout(() => {
+      const yOffset = -80; // 80px offset for navbar
+      const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }, 100);
+  }
+};
+
 const ArtworkCarousel = () => {
   const carouselRef = useRef(null);
 
@@ -119,8 +132,12 @@ const ArtworkCarousel = () => {
         </Carousel>
         
         <div className="mt-12 text-center md:hidden">
-          <Button asChild variant="outline" className="border-primary hover:bg-primary hover:text-white transition-all duration-300">
-            <Link to="/explore">View All Artwork</Link>
+          <Button 
+            variant="outline" 
+            className="border-primary hover:bg-primary hover:text-white transition-all duration-300"
+            onClick={(e) => scrollToSection(e, 'artwork')}
+          >
+            View All Artwork
           </Button>
         </div>
       </div>
