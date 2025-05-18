@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   Card,
@@ -13,7 +14,11 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Images, Award, TrendingUp, Rocket, Paintbrush } from "lucide-react";
 
-const ArtistPromotions = () => {
+interface ArtistPromotionsProps {
+  isLoading?: boolean;
+}
+
+const ArtistPromotions = ({ isLoading = false }: ArtistPromotionsProps) => {
   const [promotions, setPromotions] = useState([
     {
       id: "1",
@@ -40,6 +45,16 @@ const ArtistPromotions = () => {
       discount: "10%",
     },
   ]);
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="h-10 w-48 bg-gray-200 animate-pulse rounded-md"></div>
+        <div className="h-64 bg-gray-200 animate-pulse rounded-md"></div>
+        <div className="h-64 bg-gray-200 animate-pulse rounded-md"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

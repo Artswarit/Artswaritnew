@@ -7,7 +7,25 @@ import {
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TrendingUp, Download, Calendar } from "lucide-react";
-import { AreaChart, BarChart, LineChart, PieChart } from "recharts";
+import { 
+  AreaChart, 
+  Area, 
+  BarChart, 
+  LineChart, 
+  PieChart, 
+  Pie,
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  Legend,
+  ResponsiveContainer
+} from "recharts";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 
 interface ArtistEarningsProps {
   isLoading: boolean;
@@ -202,31 +220,32 @@ const ArtistEarnings = ({ isLoading }: ArtistEarningsProps) => {
         </CardHeader>
         <CardContent className="p-0">
           <div className="h-[300px] w-full">
-            <AreaChart
-              data={monthlyData}
-              margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-              className="h-full w-full"
-            >
-              <defs>
-                <linearGradient id="colorEarnings" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.1} />
-                </linearGradient>
-              </defs>
-              <area
-                type="monotone"
-                dataKey="earnings"
-                stroke="#8b5cf6"
-                fill="url(#colorEarnings)"
-                strokeWidth={2}
-                dot={{ r: 4 }}
-                activeDot={{ r: 6 }}
-              />
-              <xAxis dataKey="name" />
-              <yAxis />
-              <tooltip formatter={(value) => `₹${value}`} />
-              <cartesianGrid strokeDasharray="3 3" opacity={0.1} />
-            </AreaChart>
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart
+                data={monthlyData}
+                margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+              >
+                <defs>
+                  <linearGradient id="colorEarnings" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.1} />
+                  </linearGradient>
+                </defs>
+                <Area
+                  type="monotone"
+                  dataKey="earnings"
+                  stroke="#8b5cf6"
+                  fill="url(#colorEarnings)"
+                  strokeWidth={2}
+                  dot={{ r: 4 }}
+                  activeDot={{ r: 6 }}
+                />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip formatter={(value) => `₹${value}`} />
+                <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
         </CardContent>
       </Card>
@@ -239,18 +258,21 @@ const ArtistEarnings = ({ isLoading }: ArtistEarningsProps) => {
           </CardHeader>
           <CardContent className="p-0">
             <div className="h-[300px] w-full">
-              <PieChart data={categoryData} className="h-full w-full">
-                <pie
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={80}
-                  fill="#8b5cf6"
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                />
-                <tooltip formatter={(value) => `₹${value}`} />
-              </PieChart>
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    dataKey="value"
+                    nameKey="name"
+                    data={categoryData}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    fill="#8b5cf6"
+                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  />
+                  <Tooltip formatter={(value) => `₹${value}`} />
+                </PieChart>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
