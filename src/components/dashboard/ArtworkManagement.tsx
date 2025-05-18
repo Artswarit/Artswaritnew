@@ -22,7 +22,7 @@ import {
 import { useForm } from "react-hook-form";
 import { 
   Eye, Edit, MoreVertical, PlusCircle, 
-  Trash, PinOff, Pin, Image, Audio, Video, Text 
+  Trash, PinOff, Pin, Image, FileAudio, Video, Text 
 } from "lucide-react";
 
 // Sample artwork data
@@ -144,7 +144,7 @@ const ArtworkManagement = ({ isLoading }: ArtworkManagementProps) => {
       case ARTWORK_TYPES.IMAGE:
         return <Image className="h-4 w-4" />;
       case ARTWORK_TYPES.AUDIO:
-        return <Audio className="h-4 w-4" />;
+        return <FileAudio className="h-4 w-4" />;
       case ARTWORK_TYPES.VIDEO:
         return <Video className="h-4 w-4" />;
       case ARTWORK_TYPES.TEXT:
@@ -311,7 +311,7 @@ const ArtworkManagement = ({ isLoading }: ArtworkManagementProps) => {
                   <span>Image</span>
                 </TabsTrigger>
                 <TabsTrigger value={ARTWORK_TYPES.AUDIO} className="flex flex-col py-2 h-auto">
-                  <Audio className="h-5 w-5 mb-1" />
+                  <FileAudio className="h-5 w-5 mb-1" />
                   <span>Audio</span>
                 </TabsTrigger>
                 <TabsTrigger value={ARTWORK_TYPES.VIDEO} className="flex flex-col py-2 h-auto">
@@ -330,7 +330,7 @@ const ArtworkManagement = ({ isLoading }: ArtworkManagementProps) => {
                     <div className="space-y-2">
                       <div className="flex justify-center">
                         {selectedArtworkType === ARTWORK_TYPES.IMAGE && <Image className="h-8 w-8 text-gray-400" />}
-                        {selectedArtworkType === ARTWORK_TYPES.AUDIO && <Audio className="h-8 w-8 text-gray-400" />}
+                        {selectedArtworkType === ARTWORK_TYPES.AUDIO && <FileAudio className="h-8 w-8 text-gray-400" />}
                         {selectedArtworkType === ARTWORK_TYPES.VIDEO && <Video className="h-8 w-8 text-gray-400" />}
                         {selectedArtworkType === ARTWORK_TYPES.TEXT && <Text className="h-8 w-8 text-gray-400" />}
                       </div>
