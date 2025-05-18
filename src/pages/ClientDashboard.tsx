@@ -2,122 +2,90 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  LayoutDashboard,
-  Users,
-  MessageSquare,
-  FileText,
-  Settings,
-  CreditCard,
-  Heart,
-  Bell,
-  ChevronRight,
-  Search,
-  CheckCircle,
-  Clock
-} from "lucide-react";
+import { LayoutDashboard, Users, MessageSquare, FileText, Settings, CreditCard, Heart, Bell, ChevronRight, Search, CheckCircle, Clock } from "lucide-react";
 import Navbar from "@/components/Navbar";
 
 // Mock data for projects
-const activeProjects = [
-  {
-    id: "p1",
-    title: "Album Cover Design",
-    artist: "Maya Johnson",
-    dueDate: "May 28, 2025",
-    progress: 75,
-    status: "In Progress"
-  },
-  {
-    id: "p2",
-    title: "Voice Over for Ad",
-    artist: "Alex Rivera",
-    dueDate: "May 20, 2025",
-    progress: 40,
-    status: "In Progress"
-  },
-  {
-    id: "p3",
-    title: "Script Editing",
-    artist: "Jordan Smith",
-    dueDate: "May 25, 2025",
-    progress: 90,
-    status: "Review"
-  }
-];
-
-const completedProjects = [
-  {
-    id: "p4",
-    title: "Logo Design",
-    artist: "Taylor Reed",
-    completedDate: "May 10, 2025",
-    rating: 5
-  },
-  {
-    id: "p5",
-    title: "Podcast Intro",
-    artist: "Alex Rivera",
-    completedDate: "April 30, 2025",
-    rating: 4
-  }
-];
+const activeProjects = [{
+  id: "p1",
+  title: "Album Cover Design",
+  artist: "Maya Johnson",
+  dueDate: "May 28, 2025",
+  progress: 75,
+  status: "In Progress"
+}, {
+  id: "p2",
+  title: "Voice Over for Ad",
+  artist: "Alex Rivera",
+  dueDate: "May 20, 2025",
+  progress: 40,
+  status: "In Progress"
+}, {
+  id: "p3",
+  title: "Script Editing",
+  artist: "Jordan Smith",
+  dueDate: "May 25, 2025",
+  progress: 90,
+  status: "Review"
+}];
+const completedProjects = [{
+  id: "p4",
+  title: "Logo Design",
+  artist: "Taylor Reed",
+  completedDate: "May 10, 2025",
+  rating: 5
+}, {
+  id: "p5",
+  title: "Podcast Intro",
+  artist: "Alex Rivera",
+  completedDate: "April 30, 2025",
+  rating: 4
+}];
 
 // Mock data for recommended artists
-const recommendedArtists = [
-  {
-    id: "a1",
-    name: "Emma Williams",
-    profession: "Photographer",
-    rating: 4.9,
-    profileImage: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-  },
-  {
-    id: "a2",
-    name: "Daniel Chen",
-    profession: "3D Animator",
-    rating: 4.8,
-    profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-  },
-  {
-    id: "a3",
-    name: "Sophia Rodriguez",
-    profession: "Voice Artist",
-    rating: 4.7,
-    profileImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-  }
-];
+const recommendedArtists = [{
+  id: "a1",
+  name: "Emma Williams",
+  profession: "Photographer",
+  rating: 4.9,
+  profileImage: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+}, {
+  id: "a2",
+  name: "Daniel Chen",
+  profession: "3D Animator",
+  rating: 4.8,
+  profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+}, {
+  id: "a3",
+  name: "Sophia Rodriguez",
+  profession: "Voice Artist",
+  rating: 4.7,
+  profileImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+}];
 
 // Active notifications
-const notifications = [
-  {
-    id: "n1",
-    content: "Maya Johnson submitted new work for 'Album Cover Design'",
-    time: "2 hours ago",
-    read: false
-  },
-  {
-    id: "n2",
-    content: "Project deadline approaching for 'Voice Over for Ad'",
-    time: "5 hours ago",
-    read: false
-  },
-  {
-    id: "n3",
-    content: "Jordan Smith sent you a message",
-    time: "1 day ago",
-    read: true
-  }
-];
-
+const notifications = [{
+  id: "n1",
+  content: "Maya Johnson submitted new work for 'Album Cover Design'",
+  time: "2 hours ago",
+  read: false
+}, {
+  id: "n2",
+  content: "Project deadline approaching for 'Voice Over for Ad'",
+  time: "5 hours ago",
+  read: false
+}, {
+  id: "n3",
+  content: "Jordan Smith sent you a message",
+  time: "1 day ago",
+  read: true
+}];
 const ClientDashboard = () => {
   const [selectedTab, setSelectedTab] = useState("overview");
-
-  return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+  return <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Navbar />
 
-      <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-[84px]">
         {/* Dashboard Header */}
         <div className="mb-8">
           <h1 className="font-heading text-3xl font-bold">Client Dashboard</h1>
@@ -182,18 +150,16 @@ const ClientDashboard = () => {
                 </Button>
               </div>
               <div className="grid grid-cols-1 gap-4">
-                {activeProjects.map((project) => (
-                  <div key={project.id} className="bg-white/60 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-blue-100 hover:shadow-md transition-all">
+                {activeProjects.map(project => <div key={project.id} className="bg-white/60 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-blue-100 hover:shadow-md transition-all">
                     <div className="flex justify-between items-start">
                       <div>
                         <h3 className="font-medium">{project.title}</h3>
                         <p className="text-sm text-muted-foreground">Artist: {project.artist}</p>
                         <div className="flex items-center gap-2 mt-2">
                           <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div 
-                              className="bg-gradient-to-r from-artswarit-purple to-blue-500 h-2 rounded-full" 
-                              style={{ width: `${project.progress}%` }}
-                            ></div>
+                            <div className="bg-gradient-to-r from-artswarit-purple to-blue-500 h-2 rounded-full" style={{
+                          width: `${project.progress}%`
+                        }}></div>
                           </div>
                           <span className="text-xs font-medium">{project.progress}%</span>
                         </div>
@@ -201,16 +167,11 @@ const ClientDashboard = () => {
                       <div className="text-right">
                         <span className="text-xs text-gray-500">Due: {project.dueDate}</span>
                         <div className="mt-1">
-                          {project.status === "In Progress" ? (
-                            <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">In Progress</span>
-                          ) : (
-                            <span className="inline-block px-2 py-1 bg-amber-100 text-amber-800 text-xs rounded-full">Review</span>
-                          )}
+                          {project.status === "In Progress" ? <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">In Progress</span> : <span className="inline-block px-2 py-1 bg-amber-100 text-amber-800 text-xs rounded-full">Review</span>}
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  </div>)}
               </div>
             </div>
 
@@ -226,18 +187,9 @@ const ClientDashboard = () => {
                 </Button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {recommendedArtists.map((artist) => (
-                  <Link 
-                    key={artist.id}
-                    to={`/artist/${artist.id}`}
-                    className="bg-white/60 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-blue-100 hover:shadow-md transition-all"
-                  >
+                {recommendedArtists.map(artist => <Link key={artist.id} to={`/artist/${artist.id}`} className="bg-white/60 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-blue-100 hover:shadow-md transition-all">
                     <div className="flex items-center gap-4">
-                      <img
-                        src={artist.profileImage}
-                        alt={artist.name}
-                        className="h-12 w-12 rounded-full object-cover"
-                      />
+                      <img src={artist.profileImage} alt={artist.name} className="h-12 w-12 rounded-full object-cover" />
                       <div>
                         <h3 className="font-medium">{artist.name}</h3>
                         <p className="text-sm text-muted-foreground">{artist.profession}</p>
@@ -247,8 +199,7 @@ const ClientDashboard = () => {
                         <span className="text-sm font-medium ml-1">{artist.rating}</span>
                       </div>
                     </div>
-                  </Link>
-                ))}
+                  </Link>)}
               </div>
             </div>
 
@@ -262,18 +213,13 @@ const ClientDashboard = () => {
                 </Button>
               </div>
               <div className="bg-white/60 backdrop-blur-sm rounded-xl shadow-sm border border-blue-100 divide-y">
-                {notifications.map((notification) => (
-                  <div 
-                    key={notification.id}
-                    className={`p-4 flex items-start gap-3 ${notification.read ? '' : 'bg-blue-50/40'}`}
-                  >
+                {notifications.map(notification => <div key={notification.id} className={`p-4 flex items-start gap-3 ${notification.read ? '' : 'bg-blue-50/40'}`}>
                     <div className={`mt-1 h-2 w-2 rounded-full ${notification.read ? 'bg-transparent' : 'bg-blue-500'}`}></div>
                     <div className="flex-1">
                       <p className="text-sm">{notification.content}</p>
                       <p className="text-xs text-muted-foreground mt-1">{notification.time}</p>
                     </div>
-                  </div>
-                ))}
+                  </div>)}
               </div>
             </div>
           </TabsContent>
@@ -284,11 +230,7 @@ const ClientDashboard = () => {
               <h2 className="font-heading text-xl font-semibold">All Projects</h2>
               <div className="flex gap-2">
                 <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Search projects..."
-                    className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/70 focus:border-transparent bg-white/80"
-                  />
+                  <input type="text" placeholder="Search projects..." className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/70 focus:border-transparent bg-white/80" />
                   <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
                     <Search size={16} />
                   </div>
@@ -304,25 +246,19 @@ const ClientDashboard = () => {
                   In Progress
                 </h3>
                 <div className="space-y-4">
-                  {activeProjects.map((project) => (
-                    <div key={project.id} className="p-4 border border-gray-100 rounded-lg bg-white/70">
+                  {activeProjects.map(project => <div key={project.id} className="p-4 border border-gray-100 rounded-lg bg-white/70">
                       <div className="flex justify-between">
                         <h4 className="font-medium">{project.title}</h4>
-                        <span className={`px-2 py-1 text-xs rounded-full ${
-                          project.status === "In Progress" 
-                            ? "bg-blue-100 text-blue-800" 
-                            : "bg-amber-100 text-amber-800"
-                        }`}>
+                        <span className={`px-2 py-1 text-xs rounded-full ${project.status === "In Progress" ? "bg-blue-100 text-blue-800" : "bg-amber-100 text-amber-800"}`}>
                           {project.status}
                         </span>
                       </div>
                       <p className="text-sm text-muted-foreground mt-1">Artist: {project.artist}</p>
                       <div className="flex items-center gap-2 mt-3">
                         <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div 
-                            className="bg-gradient-to-r from-artswarit-purple to-blue-500 h-2 rounded-full" 
-                            style={{ width: `${project.progress}%` }}
-                          ></div>
+                          <div className="bg-gradient-to-r from-artswarit-purple to-blue-500 h-2 rounded-full" style={{
+                        width: `${project.progress}%`
+                      }}></div>
                         </div>
                         <span className="text-xs font-medium">{project.progress}%</span>
                       </div>
@@ -330,8 +266,7 @@ const ClientDashboard = () => {
                         <span className="text-xs text-gray-500">Due: {project.dueDate}</span>
                         <Button size="sm" variant="outline">View Details</Button>
                       </div>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </div>
               
@@ -341,14 +276,11 @@ const ClientDashboard = () => {
                   Completed
                 </h3>
                 <div className="space-y-4">
-                  {completedProjects.map((project) => (
-                    <div key={project.id} className="p-4 border border-gray-100 rounded-lg bg-white/70">
+                  {completedProjects.map(project => <div key={project.id} className="p-4 border border-gray-100 rounded-lg bg-white/70">
                       <div className="flex justify-between">
                         <h4 className="font-medium">{project.title}</h4>
                         <div className="flex">
-                          {[...Array(project.rating)].map((_, i) => (
-                            <span key={i} className="text-yellow-400">★</span>
-                          ))}
+                          {[...Array(project.rating)].map((_, i) => <span key={i} className="text-yellow-400">★</span>)}
                         </div>
                       </div>
                       <p className="text-sm text-muted-foreground mt-1">Artist: {project.artist}</p>
@@ -356,8 +288,7 @@ const ClientDashboard = () => {
                         <span className="text-xs text-gray-500">Completed: {project.completedDate}</span>
                         <Button size="sm" variant="outline">View Details</Button>
                       </div>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </div>
             </div>
@@ -397,8 +328,6 @@ const ClientDashboard = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default ClientDashboard;
