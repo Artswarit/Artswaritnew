@@ -1,22 +1,28 @@
+
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/components/ui/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
 const Signup = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
-    role: "artist",
-    // Default role
+    role: "artist", // Default role
     acceptTerms: false
   });
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
       name,
@@ -27,23 +33,60 @@ const Signup = () => {
       [name]: value
     });
   };
+  
   const handleRoleChange = (value: string) => {
     setFormData({
       ...formData,
       role: value
     });
   };
+  
   const handleTermsChange = (checked: boolean) => {
     setFormData({
       ...formData,
       acceptTerms: checked
     });
   };
+  
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    
+    // Simple validation
+    if (formData.password !== formData.confirmPassword) {
+      toast({
+        title: "Passwords do not match",
+        description: "Please make sure your passwords match.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (!formData.acceptTerms) {
+      toast({
+        title: "Terms not accepted",
+        description: "Please accept the terms of service.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     // In a real application, this would call an API to create a new user
     console.log("Signup attempted with:", formData);
+    
+    // Show success message
+    toast({
+      title: "Account created!",
+      description: "You've successfully signed up.",
+    });
+    
+    // Redirect based on role
+    if (formData.role === "artist") {
+      setTimeout(() => navigate("/artist-dashboard"), 1000);
+    } else {
+      setTimeout(() => navigate("/client-dashboard"), 1000);
+    }
   };
+
   return <div className="flex flex-col min-h-screen">
       <Navbar />
       <div className="flex-1 flex items-center justify-center px-4 sm:px-6 bg-gray-50 my-0 lg:px-0 py-[52px]">
@@ -133,9 +176,23 @@ const Signup = () => {
               </Button>
             </div>
           </form>
+          
+          {/* For testing purposes - direct links to dashboards */}
+          <div className="text-center pt-4 border-t">
+            <p className="text-sm text-gray-500 mb-2">Testing Links:</p>
+            <div className="flex justify-center gap-4">
+              <Link to="/artist-dashboard" className="text-sm text-artswarit-purple hover:text-artswarit-purple-dark">
+                Artist Dashboard
+              </Link>
+              <Link to="/client-dashboard" className="text-sm text-artswarit-purple hover:text-artswarit-purple-dark">
+                Client Dashboard
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
       <Footer />
     </div>;
 };
+
 export default Signup;
