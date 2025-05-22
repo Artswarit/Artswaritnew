@@ -12,7 +12,7 @@ interface CategoryCardProps {
 
 const CategoryCard = ({ title, icon, count, slug }: CategoryCardProps) => {
   return (
-    <Link to={`/categories/${slug}`}>
+    <Link to={`/explore?category=${slug}`}>
       <Card className="glass-card overflow-hidden hover-lift transition-all duration-300 h-full">
         <CardContent className="p-6 flex flex-col items-center justify-center text-center">
           <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-md mb-4">

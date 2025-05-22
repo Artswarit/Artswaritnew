@@ -12,6 +12,7 @@ interface FeaturedArtistCardProps {
   verified?: boolean;
   premium?: boolean;
   followers?: number;
+  bio?: string;
 }
 
 const FeaturedArtistCard = ({
@@ -22,6 +23,7 @@ const FeaturedArtistCard = ({
   verified = false,
   premium = false,
   followers = 0,
+  bio = "",
 }: FeaturedArtistCardProps) => {
   return (
     <Link to={`/artist/${id}`}>
@@ -59,6 +61,11 @@ const FeaturedArtistCard = ({
         <CardContent className="p-2 sm:p-4">
           <h3 className="font-heading font-semibold text-sm sm:text-lg line-clamp-1">{name}</h3>
           <p className="text-muted-foreground text-xs sm:text-sm">{category}</p>
+          
+          {/* Bio preview if available */}
+          {bio && (
+            <p className="text-xs sm:text-sm mt-1 line-clamp-2 text-gray-600">{bio}</p>
+          )}
           
           {/* Followers count */}
           <div className="flex items-center gap-1 mt-1 sm:gap-1.5 sm:mt-2 text-xs sm:text-sm text-muted-foreground">
