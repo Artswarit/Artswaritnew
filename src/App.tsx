@@ -29,6 +29,8 @@ const App = () => (
           <Route path="/artist/:id" element={<ArtistProfile />} />
           <Route path="/client-dashboard" element={<ClientDashboard />} />
           <Route path="/artist-dashboard" element={<ArtistDashboard />} />
+          <Route path="/artist-dashboard/:tab" element={<ArtistDashboard />} />
+          <Route path="/artist-dashboard/upload" element={<ArtistDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

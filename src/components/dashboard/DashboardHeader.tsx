@@ -1,15 +1,21 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PlusCircle, TrendingUp, Calendar, Eye } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 const DashboardHeader = () => {
+  const navigate = useNavigate();
   const [artistStats, setArtistStats] = useState({
     totalViews: 12463,
     monthlyEarnings: 24500,
     totalArtworks: 32,
     followers: 548
   });
-  return <div className="space-y-6 py-[18px] my-[49px]">
+
+  return (
+    <div className="space-y-6 py-[18px] my-[49px]">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Artist Dashboard</h1>
@@ -18,6 +24,10 @@ const DashboardHeader = () => {
           </p>
         </div>
         
+        <Button onClick={() => navigate("/artist-dashboard/upload")} className="bg-gradient-to-r from-artswarit-purple to-blue-500 border-none">
+          <PlusCircle className="mr-2 h-4 w-4" />
+          Add New Artwork
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -71,6 +81,8 @@ const DashboardHeader = () => {
           </CardContent>
         </Card>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default DashboardHeader;
