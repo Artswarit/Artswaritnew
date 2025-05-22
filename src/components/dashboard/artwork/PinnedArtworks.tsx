@@ -6,9 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
-// Import this package for drag and drop functionality
-<lov-add-dependency>@hello-pangea/dnd@16.6.0</lov-add-dependency>
-
 interface ArtworkItem {
   id: string;
   title: string;
