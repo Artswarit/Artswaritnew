@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -9,7 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Facebook, Google } from "lucide-react";
+import { Chrome, Facebook as FacebookIcon } from "lucide-react";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -118,7 +117,7 @@ const Signup = () => {
               className="w-full flex items-center justify-center gap-2"
               onClick={() => handleSocialSignup("Google")}
             >
-              <Google size={20} className="text-red-500" />
+              <Chrome size={20} className="text-red-500" />
               <span>Sign up with Google</span>
             </Button>
             <Button 
@@ -126,7 +125,7 @@ const Signup = () => {
               className="w-full flex items-center justify-center gap-2"
               onClick={() => handleSocialSignup("Facebook")}
             >
-              <Facebook size={20} className="text-blue-600" />
+              <FacebookIcon size={20} className="text-blue-600" />
               <span>Sign up with Facebook</span>
             </Button>
           </div>
