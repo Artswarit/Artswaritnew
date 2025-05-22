@@ -14,6 +14,7 @@ import ArtistPromotions from "@/components/dashboard/ArtistPromotions";
 
 const ArtistDashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("artworks");
   
   // Simulate loading data
   useEffect(() => {
@@ -30,13 +31,17 @@ const ArtistDashboard = () => {
     // Authentication check would go here
   }, []);
 
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
       <div className="flex-1 container mx-auto px-4 py-8">
         <DashboardHeader />
         
-        <Tabs defaultValue="artworks" className="w-full mt-6">
+        <Tabs defaultValue="artworks" value={activeTab} onValueChange={handleTabChange} className="w-full mt-6">
           <TabsList className="mb-6 w-full overflow-x-auto flex flex-nowrap md:justify-start">
             <TabsTrigger value="artworks">Artworks</TabsTrigger>
             <TabsTrigger value="profile">Profile</TabsTrigger>

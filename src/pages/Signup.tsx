@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Facebook, Google } from "lucide-react";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -45,6 +46,14 @@ const Signup = () => {
     setFormData({
       ...formData,
       acceptTerms: checked
+    });
+  };
+
+  const handleSocialSignup = (provider: string) => {
+    console.log(`Signup attempted with ${provider}`);
+    toast({
+      title: `${provider} Sign up initiated`,
+      description: "This feature would connect to the OAuth provider in a production environment.",
     });
   };
   
@@ -103,7 +112,32 @@ const Signup = () => {
             </p>
           </div>
 
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <div className="grid grid-cols-2 gap-3 mb-6">
+            <Button 
+              variant="outline" 
+              className="w-full flex items-center justify-center gap-2"
+              onClick={() => handleSocialSignup("Google")}
+            >
+              <Google size={20} className="text-red-500" />
+              <span>Sign up with Google</span>
+            </Button>
+            <Button 
+              variant="outline" 
+              className="w-full flex items-center justify-center gap-2"
+              onClick={() => handleSocialSignup("Facebook")}
+            >
+              <Facebook size={20} className="text-blue-600" />
+              <span>Sign up with Facebook</span>
+            </Button>
+          </div>
+
+          <div className="flex items-center my-4">
+            <div className="flex-1 border-t border-gray-300"></div>
+            <div className="px-3 text-sm text-gray-500">Or sign up with email</div>
+            <div className="flex-1 border-t border-gray-300"></div>
+          </div>
+
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-4">
               <div>
                 <Label htmlFor="name">Full name</Label>
@@ -154,27 +188,6 @@ const Signup = () => {
             <Button type="submit" className="w-full">
               Create account
             </Button>
-
-            <div className="flex items-center my-4">
-              <div className="flex-1 border-t border-gray-300"></div>
-              <div className="px-3 text-sm text-gray-500">Or continue with</div>
-              <div className="flex-1 border-t border-gray-300"></div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <Button variant="outline" className="w-full">
-                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
-                  <path fill="currentColor" d="M12.545,12.151L12.545,12.151c0,1.054,0.952,1.91,2.127,1.91h2.508v-3.817h-2.508 C13.497,10.244,12.545,11.097,12.545,12.151 M12.545,6.729v3.515h4.635V6.729H12.545z M6.823,6.729v3.515h4.635V6.729H6.823z M6.823,12.151L6.823,12.151c0,1.054,0.952,1.91,2.127,1.91h2.508v-3.817H8.95C7.775,10.244,6.823,11.097,6.823,12.151 M17.18,12.151c0-1.054-0.954-1.907-2.127-1.907h-2.508v3.817h2.508C16.226,14.061,17.18,13.205,17.18,12.151 M6.823,17.570 v-3.515h4.635v3.515H6.823z M12.545,14.061v3.515h4.635v-3.515H12.545z" />
-                </svg>
-                Google
-              </Button>
-              <Button variant="outline" className="w-full">
-                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
-                  <path fill="currentColor" d="M21.543 6.498C22 8.28 22 12 12s0 3.72-.457 5.502c-.254.985-.997 1.76-1.938 2.022C17.896 20 12 20 12 20s-5.893 0-7.605-.476c-.945-.266-1.687-1.04-1.938-2.022C2 15.72 2 12 2 12s0-3.72.457-5.502c.254-.985.997-1.76 1.938-2.022C6.107 4 12 4 12 4s5.896 0 7.605.476c.945.266 1.687 1.04 1.938 2.022zM10 15.5l6-3.5-6-3.5v7z" />
-                </svg>
-                Facebook
-              </Button>
-            </div>
           </form>
           
           {/* For testing purposes - direct links to dashboards */}

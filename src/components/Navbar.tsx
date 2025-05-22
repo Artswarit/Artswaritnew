@@ -1,11 +1,13 @@
+
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Search, Menu, X, User, Home, TrendingUp, Sparkles } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
   
   // Handle scroll event to change navbar appearance
   useEffect(() => {
@@ -24,18 +26,25 @@ const Navbar = () => {
   // Improved smooth scroll function with offset for any section
   const scrollToSection = (e: React.MouseEvent, sectionId: string) => {
     e.preventDefault();
-    const section = document.getElementById(sectionId);
-    if (section) {
-      // Set timeout to ensure DOM is ready
-      setTimeout(() => {
-        // Add offset for fixed header (80px)
-        const yOffset = -80; 
-        const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        window.scrollTo({ top: y, behavior: 'smooth' });
-        
-        // Close mobile menu after navigation
-        setIsOpen(false);
-      }, 100);
+    
+    // Only try to scroll if we're on the home page
+    if (location.pathname === "/") {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        // Set timeout to ensure DOM is ready
+        setTimeout(() => {
+          // Add offset for fixed header (80px)
+          const yOffset = -80; 
+          const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+          
+          // Close mobile menu after navigation
+          setIsOpen(false);
+        }, 100);
+      }
+    } else {
+      // If we're not on the home page, navigate to home with hash
+      setIsOpen(false);
     }
   };
 
@@ -52,27 +61,64 @@ const Navbar = () => {
               <span className="font-heading font-bold text-2xl text-gradient-purple">Artswarit</span>
             </Link>
             <div className="hidden sm:ml-10 sm:flex sm:space-x-8">
-              <Link to="/" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
+              <Link 
+                to="/" 
+                className={`inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 transition-colors duration-200 ${
+                  location.pathname === '/' 
+                    ? 'text-primary border-primary' 
+                    : 'text-gray-600 hover:text-primary border-transparent hover:border-primary'
+                }`}
+              >
                 <Home className="mr-1 h-4 w-4" />
                 Home
               </Link>
-              <a 
-                href="#featured-artists" 
-                onClick={(e) => scrollToSection(e, 'featured-artists')}
-                className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200"
+              
+              {location.pathname === '/' ? (
+                <a 
+                  href="#featured-artists" 
+                  onClick={(e) => scrollToSection(e, 'featured-artists')}
+                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200"
+                >
+                  <User className="mr-1 h-4 w-4" />
+                  Artists
+                </a>
+              ) : (
+                <Link 
+                  to="/#featured-artists"
+                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200"
+                >
+                  <User className="mr-1 h-4 w-4" />
+                  Artists
+                </Link>
+              )}
+              
+              {location.pathname === '/' ? (
+                <a 
+                  href="#artwork" 
+                  onClick={(e) => scrollToSection(e, 'artwork')}
+                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200"
+                >
+                  <Sparkles className="mr-1 h-4 w-4" />
+                  Artwork
+                </a>
+              ) : (
+                <Link 
+                  to="/#artwork"
+                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200"
+                >
+                  <Sparkles className="mr-1 h-4 w-4" />
+                  Artwork
+                </Link>
+              )}
+              
+              <Link 
+                to="/explore" 
+                className={`inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 transition-colors duration-200 ${
+                  location.pathname === '/explore' 
+                    ? 'text-primary border-primary' 
+                    : 'text-gray-600 hover:text-primary border-transparent hover:border-primary'
+                }`}
               >
-                <User className="mr-1 h-4 w-4" />
-                Artists
-              </a>
-              <a 
-                href="#artwork" 
-                onClick={(e) => scrollToSection(e, 'artwork')}
-                className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200"
-              >
-                <Sparkles className="mr-1 h-4 w-4" />
-                Artwork
-              </a>
-              <Link to="/explore" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-colors duration-200">
                 <TrendingUp className="mr-1 h-4 w-4" />
                 Trending
               </Link>
@@ -115,31 +161,64 @@ const Navbar = () => {
           <div className="pt-2 pb-4 space-y-1">
             <Link
               to="/"
-              className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
+              className={`flex items-center pl-3 pr-4 py-2 text-base font-medium ${
+                location.pathname === '/' 
+                  ? 'text-primary bg-primary/10' 
+                  : 'text-gray-600 hover:bg-primary/10 hover:text-primary'
+              }`}
               onClick={() => setIsOpen(false)}
             >
               <Home className="mr-2 h-4 w-4" />
               Home
             </Link>
-            <a
-              href="#featured-artists"
-              onClick={(e) => scrollToSection(e, 'featured-artists')}
-              className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
-            >
-              <User className="mr-2 h-4 w-4" />
-              Artists
-            </a>
-            <a
-              href="#artwork"
-              onClick={(e) => scrollToSection(e, 'artwork')}
-              className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
-            >
-              <Sparkles className="mr-2 h-4 w-4" />
-              Artwork
-            </a>
+            
+            {location.pathname === '/' ? (
+              <a
+                href="#featured-artists"
+                onClick={(e) => scrollToSection(e, 'featured-artists')}
+                className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
+              >
+                <User className="mr-2 h-4 w-4" />
+                Artists
+              </a>
+            ) : (
+              <Link
+                to="/#featured-artists"
+                className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
+                onClick={() => setIsOpen(false)}
+              >
+                <User className="mr-2 h-4 w-4" />
+                Artists
+              </Link>
+            )}
+            
+            {location.pathname === '/' ? (
+              <a
+                href="#artwork"
+                onClick={(e) => scrollToSection(e, 'artwork')}
+                className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
+              >
+                <Sparkles className="mr-2 h-4 w-4" />
+                Artwork
+              </a>
+            ) : (
+              <Link
+                to="/#artwork"
+                className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
+                onClick={() => setIsOpen(false)}
+              >
+                <Sparkles className="mr-2 h-4 w-4" />
+                Artwork
+              </Link>
+            )}
+            
             <Link
               to="/explore"
-              className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary"
+              className={`flex items-center pl-3 pr-4 py-2 text-base font-medium ${
+                location.pathname === '/explore' 
+                  ? 'text-primary bg-primary/10' 
+                  : 'text-gray-600 hover:bg-primary/10 hover:text-primary'
+              }`}
               onClick={() => setIsOpen(false)}
             >
               <TrendingUp className="mr-2 h-4 w-4" />
