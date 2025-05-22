@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Chrome, Facebook as FacebookIcon } from "lucide-react";
+import { Chrome, Facebook } from "lucide-react";
 
 interface SocialLoginButtonsProps {
   onSocialSignup: (provider: string) => void;
@@ -12,7 +12,7 @@ const SocialLoginButtons = ({ onSocialSignup }: SocialLoginButtonsProps) => {
       <div className="grid grid-cols-2 gap-3 mb-6">
         <Button 
           variant="outline" 
-          className="w-full flex items-center justify-center gap-2"
+          className="w-full flex items-center justify-center gap-2 border-gray-300 hover:bg-gray-50"
           onClick={() => onSocialSignup("Google")}
         >
           <Chrome size={20} className="text-red-500" />
@@ -20,10 +20,10 @@ const SocialLoginButtons = ({ onSocialSignup }: SocialLoginButtonsProps) => {
         </Button>
         <Button 
           variant="outline" 
-          className="w-full flex items-center justify-center gap-2"
+          className="w-full flex items-center justify-center gap-2 border-gray-300 hover:bg-blue-50"
           onClick={() => onSocialSignup("Facebook")}
         >
-          <FacebookIcon size={20} className="text-blue-600" />
+          <Facebook size={20} className="text-blue-600" />
           <span>Sign up with Facebook</span>
         </Button>
       </div>
