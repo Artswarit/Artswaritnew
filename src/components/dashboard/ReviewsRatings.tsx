@@ -70,7 +70,6 @@ const ReviewsRatings = () => {
   };
 
   const handleReply = async (reviewId: string) => {
-    // Fix here: accessing object with reviewId key, which may not exist, thus returning undefined
     const reply = replyText[reviewId] || '';
     if (!reply.trim()) return;
 
@@ -111,10 +110,9 @@ const ReviewsRatings = () => {
   const getRatingDistribution = () => {
     const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
     reviews.forEach(review => {
-      // Fix: Convert rating to string key to match distribution object keys
-      const ratingKey = review.rating.toString() as keyof typeof distribution;
-      if (ratingKey in distribution) {
-        distribution[ratingKey]++;
+      // Fix: Use numeric key directly since rating is already a number
+      if (review.rating >= 1 && review.rating <= 5) {
+        distribution[review.rating as keyof typeof distribution]++;
       }
     });
     return distribution;
