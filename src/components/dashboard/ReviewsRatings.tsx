@@ -162,7 +162,7 @@ const ReviewsRatings = () => {
                       className="bg-yellow-400 h-2 rounded-full"
                       style={{
                         width: reviews.length > 0 
-                          ? `${((distribution[rating as keyof typeof distribution] / reviews.length) * 100).toString()}%`
+                          ? `${((distribution[rating as keyof typeof distribution] / reviews.length) * 100)}%`
                           : '0%'
                       }}
                     />
