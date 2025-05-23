@@ -70,7 +70,8 @@ const ReviewsRatings = () => {
   };
 
   const handleReply = async (reviewId: string) => {
-    const reply = replyText[reviewId];
+    // Fix here: accessing object with reviewId key, which may not exist, thus returning undefined
+    const reply = replyText[reviewId] || '';
     if (!reply.trim()) return;
 
     try {

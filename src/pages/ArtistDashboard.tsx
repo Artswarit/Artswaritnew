@@ -164,7 +164,8 @@ const ArtistDashboard = () => {
             </TabsContent>
 
             <TabsContent value="artworks">
-              <ArtworkManagement />
+              {/* Pass the isLoading prop to ArtworkManagement */}
+              <ArtworkManagement isLoading={loading} />
             </TabsContent>
 
             <TabsContent value="orders">
@@ -188,7 +189,8 @@ const ArtistDashboard = () => {
             </TabsContent>
 
             <TabsContent value="settings">
-              <ArtistSettings />
+              {/* Pass the isLoading prop to ArtistSettings */}
+              <ArtistSettings isLoading={loading} />
             </TabsContent>
           </Tabs>
         </div>
