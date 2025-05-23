@@ -111,7 +111,11 @@ const ReviewsRatings = () => {
   const getRatingDistribution = () => {
     const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
     reviews.forEach(review => {
-      distribution[review.rating as keyof typeof distribution]++;
+      // Fix: Convert rating to string key to match distribution object keys
+      const ratingKey = review.rating.toString() as keyof typeof distribution;
+      if (ratingKey in distribution) {
+        distribution[ratingKey]++;
+      }
     });
     return distribution;
   };
