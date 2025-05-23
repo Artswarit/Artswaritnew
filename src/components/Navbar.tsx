@@ -1,238 +1,166 @@
 
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Search, Menu, X, User, Home, TrendingUp, Sparkles } from "lucide-react";
-import { smoothScrollTo } from "@/utils/smoothScroll";
+import { Palette, Menu, X, User, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
-  
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 50);
     };
-    
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  
-  const scrollToSection = (e: React.MouseEvent, sectionId: string) => {
-    e.preventDefault();
-    
-    if (location.pathname === "/") {
-      smoothScrollTo(sectionId);
-      setIsOpen(false);
-    } else {
-      setIsOpen(false);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast.success("Signed out successfully");
+      navigate("/");
+    } catch (error) {
+      toast.error("Error signing out");
     }
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-100 z-50 shadow-sm transition-all duration-300 ${scrolled ? 'shadow-md bg-white/90' : ''}`}>
-      <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <Link 
-              to="/" 
-              className="flex-shrink-0 flex items-center cursor-pointer group" 
-              onClick={() => setIsOpen(false)}
-            >
-              <span className="font-heading font-bold text-2xl text-gradient-purple group-hover:scale-105 transition-transform duration-300">Artswarit</span>
-            </Link>
-            <div className="hidden sm:ml-10 sm:flex sm:space-x-8">
-              <Link 
-                to="/" 
-                className={`inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 transition-all duration-200 hover:scale-105 ${
-                  location.pathname === '/' 
-                    ? 'text-primary border-primary' 
-                    : 'text-gray-600 hover:text-primary border-transparent hover:border-primary'
-                }`}
-              >
-                <Home className="mr-1 h-4 w-4" />
-                Home
-              </Link>
-              
-              {location.pathname === '/' ? (
-                <a 
-                  href="#featured-artists" 
-                  onClick={(e) => scrollToSection(e, 'featured-artists')}
-                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-all duration-200 hover:scale-105"
-                >
-                  <User className="mr-1 h-4 w-4" />
-                  Artists
-                </a>
-              ) : (
-                <Link 
-                  to="/#featured-artists"
-                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-all duration-200 hover:scale-105"
-                >
-                  <User className="mr-1 h-4 w-4" />
-                  Artists
-                </Link>
-              )}
-              
-              {location.pathname === '/' ? (
-                <a 
-                  href="#artwork" 
-                  onClick={(e) => scrollToSection(e, 'artwork')}
-                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-all duration-200 hover:scale-105"
-                >
-                  <Sparkles className="mr-1 h-4 w-4" />
-                  Artwork
-                </a>
-              ) : (
-                <Link 
-                  to="/#artwork"
-                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary transition-all duration-200 hover:scale-105"
-                >
-                  <Sparkles className="mr-1 h-4 w-4" />
-                  Artwork
-                </Link>
-              )}
-              
-              <Link 
-                to="/explore" 
-                className={`inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 transition-all duration-200 hover:scale-105 ${
-                  location.pathname === '/explore' 
-                    ? 'text-primary border-primary' 
-                    : 'text-gray-600 hover:text-primary border-transparent hover:border-primary'
-                }`}
-              >
-                <TrendingUp className="mr-1 h-4 w-4" />
-                Explore
-              </Link>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled 
+        ? "bg-white/95 backdrop-blur-md shadow-lg border-b border-white/20" 
+        : "bg-transparent"
+    }`}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+            <div className="h-8 w-8 bg-gradient-to-r from-artswarit-purple to-blue-500 rounded-lg flex items-center justify-center">
+              <Palette className="h-5 w-5 text-white" />
             </div>
-          </div>
-          <div className="hidden sm:flex sm:items-center sm:space-x-4">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search artists..."
-                className="pl-10 pr-4 py-2 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary/70 focus:border-transparent bg-white/80 transition-all duration-300 focus:scale-105"
-              />
-              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                <Search size={16} />
-              </div>
-            </div>
-            <Button asChild variant="ghost" className="hover:bg-primary/10 hover:text-primary transition-all duration-300 hover:scale-105">
-              <Link to="/login">Log in</Link>
-            </Button>
-            <Button asChild className="bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
-              <Link to="/signup">Sign up</Link>
-            </Button>
-          </div>
-          <div className="flex items-center sm:hidden">
-            <button
-              type="button"
-              className="p-2 rounded-md text-gray-500 hover:text-primary focus:outline-none transition-colors duration-200"
-              onClick={() => setIsOpen(!isOpen)}
-              aria-label="Toggle menu"
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-      </nav>
+            <span className="font-heading text-xl font-bold text-gray-900">Artswarit</span>
+          </Link>
 
-      {/* Enhanced Mobile menu */}
-      {isOpen && (
-        <div className="sm:hidden bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-lg fixed w-full left-0 z-50 max-h-[calc(100vh-4rem)] overflow-y-auto animate-slide-in-right">
-          <div className="pt-2 pb-4 space-y-1">
-            <Link
-              to="/"
-              className={`flex items-center pl-3 pr-4 py-2 text-base font-medium transition-all duration-200 ${
-                location.pathname === '/' 
-                  ? 'text-primary bg-primary/10' 
-                  : 'text-gray-600 hover:bg-primary/10 hover:text-primary'
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              <Home className="mr-2 h-4 w-4" />
-              Home
-            </Link>
-            
-            {location.pathname === '/' ? (
-              <a
-                href="#featured-artists"
-                onClick={(e) => scrollToSection(e, 'featured-artists')}
-                className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary transition-all duration-200"
-              >
-                <User className="mr-2 h-4 w-4" />
-                Artists
-              </a>
-            ) : (
-              <Link
-                to="/#featured-artists"
-                className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary transition-all duration-200"
-                onClick={() => setIsOpen(false)}
-              >
-                <User className="mr-2 h-4 w-4" />
-                Artists
-              </Link>
-            )}
-            
-            {location.pathname === '/' ? (
-              <a
-                href="#artwork"
-                onClick={(e) => scrollToSection(e, 'artwork')}
-                className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary transition-all duration-200"
-              >
-                <Sparkles className="mr-2 h-4 w-4" />
-                Artwork
-              </a>
-            ) : (
-              <Link
-                to="/#artwork"
-                className="flex items-center pl-3 pr-4 py-2 text-base font-medium text-gray-600 hover:bg-primary/10 hover:text-primary transition-all duration-200"
-                onClick={() => setIsOpen(false)}
-              >
-                <Sparkles className="mr-2 h-4 w-4" />
-                Artwork
-              </Link>
-            )}
-            
-            <Link
-              to="/explore"
-              className={`flex items-center pl-3 pr-4 py-2 text-base font-medium transition-all duration-200 ${
-                location.pathname === '/explore' 
-                  ? 'text-primary bg-primary/10' 
-                  : 'text-gray-600 hover:bg-primary/10 hover:text-primary'
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              <TrendingUp className="mr-2 h-4 w-4" />
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            <Link to="/explore" className="text-gray-700 hover:text-artswarit-purple transition-colors font-medium">
               Explore
             </Link>
+            <Link to="/categories" className="text-gray-700 hover:text-artswarit-purple transition-colors font-medium">
+              Categories
+            </Link>
+            
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-gradient-to-r from-purple-400 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                      {user.email?.charAt(0).toUpperCase()}
+                    </div>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem onClick={() => navigate("/artist-dashboard")}>
+                    <User className="mr-2 h-4 w-4" />
+                    Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Button asChild variant="ghost">
+                  <Link to="/auth">Sign In</Link>
+                </Button>
+                <Button asChild className="bg-gradient-to-r from-artswarit-purple to-blue-500 border-none">
+                  <Link to="/auth">Get Started</Link>
+                </Button>
+              </div>
+            )}
           </div>
-          <div className="pt-4 pb-3 border-t border-gray-200">
-            <div className="flex items-center px-4">
-              <div className="flex-shrink-0">
-                <User className="h-10 w-10 rounded-full text-gray-400" />
-              </div>
-              <div className="ml-3 space-y-2">
-                <Link
-                  to="/login"
-                  className="block text-base font-medium text-gray-600 hover:text-primary transition-colors duration-200"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Log in
-                </Link>
-                <Link
-                  to="/signup"
-                  className="block text-base font-medium text-primary hover:text-primary/80 transition-colors duration-200"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Sign up
-                </Link>
-              </div>
-            </div>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-gray-700"
+            >
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
           </div>
         </div>
-      )}
-    </header>
+
+        {/* Mobile Navigation */}
+        {isOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 bg-white/95 backdrop-blur-md rounded-lg shadow-lg mt-2 border border-white/20">
+              <Link
+                to="/explore"
+                className="block px-3 py-2 text-gray-700 hover:text-artswarit-purple transition-colors font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                Explore
+              </Link>
+              <Link
+                to="/categories"
+                className="block px-3 py-2 text-gray-700 hover:text-artswarit-purple transition-colors font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                Categories
+              </Link>
+              
+              {user ? (
+                <>
+                  <Link
+                    to="/artist-dashboard"
+                    className="block px-3 py-2 text-gray-700 hover:text-artswarit-purple transition-colors font-medium"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleSignOut();
+                      setIsOpen(false);
+                    }}
+                    className="block w-full text-left px-3 py-2 text-gray-700 hover:text-artswarit-purple transition-colors font-medium"
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <div className="px-3 py-2 space-y-2">
+                  <Button asChild variant="outline" size="sm" className="w-full">
+                    <Link to="/auth" onClick={() => setIsOpen(false)}>Sign In</Link>
+                  </Button>
+                  <Button asChild size="sm" className="w-full bg-gradient-to-r from-artswarit-purple to-blue-500 border-none">
+                    <Link to="/auth" onClick={() => setIsOpen(false)}>Get Started</Link>
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
   );
 };
 

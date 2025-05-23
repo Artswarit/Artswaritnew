@@ -1,152 +1,199 @@
 
-import { useEffect, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card } from "@/components/ui/card";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import ArtworkManagement from "@/components/dashboard/ArtworkManagement";
-import ArtistProfile from "@/components/dashboard/ArtistProfile";
+import CommissionsOrders from "@/components/dashboard/CommissionsOrders";
+import ArtistWallet from "@/components/dashboard/ArtistWallet";
+import ReviewsRatings from "@/components/dashboard/ReviewsRatings";
+import BadgesRecognition from "@/components/dashboard/BadgesRecognition";
 import ArtistEarnings from "@/components/dashboard/ArtistEarnings";
-import ArtistSettings from "@/components/dashboard/ArtistSettings";
 import ArtistNotifications from "@/components/dashboard/ArtistNotifications";
+import ArtistProfile from "@/components/dashboard/ArtistProfile";
 import ArtistPromotions from "@/components/dashboard/ArtistPromotions";
-import ArtworkUploadForm from "@/components/dashboard/artwork/ArtworkUploadForm";
-import PinnedArtworks from "@/components/dashboard/artwork/PinnedArtworks";
-import ProjectManagement from "@/components/dashboard/projects/ProjectManagement";
-import EarningsAnalysis from "@/components/dashboard/earnings/EarningsAnalysis";
+import ArtistSettings from "@/components/dashboard/ArtistSettings";
 import MessagingModule from "@/components/dashboard/messages/MessagingModule";
+import ProjectManagement from "@/components/dashboard/projects/ProjectManagement";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
+import { toast } from "sonner";
 
 const ArtistDashboard = () => {
+  const { tab } = useParams();
+  const { user } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
-  const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("artworks");
-  
-  // Determine active tab based on URL path
-  useEffect(() => {
-    if (location.pathname.includes("/upload")) {
-      return; // Don't change active tab on the upload page
-    } else if (location.pathname.includes("/projects")) {
-      setActiveTab("projects");
-    } else if (location.pathname.includes("/messages")) {
-      setActiveTab("messages");
-    } else if (location.pathname.includes("/earnings")) {
-      setActiveTab("earnings");
-    } else if (location.pathname.includes("/profile")) {
-      setActiveTab("profile");
-    } else if (location.pathname.includes("/promotions")) {
-      setActiveTab("promotions");
-    } else if (location.pathname.includes("/notifications")) {
-      setActiveTab("notifications");
-    } else if (location.pathname.includes("/settings")) {
-      setActiveTab("settings");
-    } else if (location.pathname.includes("/pinned")) {
-      setActiveTab("pinned");
-    } else {
-      setActiveTab("artworks");
-    }
-  }, [location.pathname]);
-  
-  // Simulate loading data
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-    
-    return () => clearTimeout(timer);
-  }, []);
+  const [activeTab, setActiveTab] = useState(tab || "overview");
+  const [artistProfile, setArtistProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // Redirect to login if not authenticated
-  // In a real app, this would check for auth status
   useEffect(() => {
-    // Authentication check would go here
-  }, []);
+    if (tab) {
+      setActiveTab(tab);
+    }
+  }, [tab]);
+
+  useEffect(() => {
+    checkArtistProfile();
+  }, [user]);
+
+  const checkArtistProfile = async () => {
+    if (!user) return;
+
+    try {
+      // Check if user has artist profile
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('user_type')
+        .eq('id', user.id)
+        .single();
+
+      if (profile?.user_type === 'client') {
+        toast.error('You need to be an artist to access this dashboard');
+        navigate('/client-dashboard');
+        return;
+      }
+
+      // Get or create artist profile
+      const { data: artistData, error } = await supabase
+        .from('artist_profiles')
+        .select('*')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (error && error.code !== 'PGRST116') {
+        throw error;
+      }
+
+      if (!artistData && (profile?.user_type === 'artist' || profile?.user_type === 'both')) {
+        // Create artist profile if user is artist but doesn't have profile
+        const { data: newProfile, error: createError } = await supabase
+          .from('artist_profiles')
+          .insert({
+            user_id: user.id,
+            profession: 'Artist',
+            portfolio_description: 'New artist on Artswarit'
+          })
+          .select()
+          .single();
+
+        if (createError) throw createError;
+        setArtistProfile(newProfile);
+      } else {
+        setArtistProfile(artistData);
+      }
+    } catch (error) {
+      console.error('Error checking artist profile:', error);
+      toast.error('Error loading dashboard');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
-    navigate(`/artist-dashboard${value !== "artworks" ? `/${value}` : ""}`);
+    navigate(`/artist-dashboard/${value}`);
   };
 
-  // Special case for upload page
-  if (location.pathname.includes("/upload")) {
+  if (loading) {
     return (
-      <div className="min-h-screen flex flex-col bg-gray-50">
-        <Navbar />
-        <div className="flex-1 container mx-auto px-4 py-8">
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold">Upload New Artwork</h1>
-            <p className="text-muted-foreground">Share your creative work with the world</p>
-          </div>
-          <ArtworkUploadForm />
-        </div>
-        <Footer />
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-artswarit-purple"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <div className="flex-1 container mx-auto px-4 py-8">
-        <DashboardHeader />
-        
-        <Tabs defaultValue="artworks" value={activeTab} onValueChange={handleTabChange} className="w-full mt-6">
-          <TabsList className="mb-6 w-full overflow-x-auto flex flex-nowrap md:justify-start">
-            <TabsTrigger value="artworks">Artworks</TabsTrigger>
-            <TabsTrigger value="pinned">Pinned Artworks</TabsTrigger>
-            <TabsTrigger value="projects">Projects</TabsTrigger>
-            <TabsTrigger value="messages">Messages</TabsTrigger>
-            <TabsTrigger value="earnings">Earnings</TabsTrigger>
-            <TabsTrigger value="profile">Profile</TabsTrigger>
-            <TabsTrigger value="promotions">Promotions</TabsTrigger>
-            <TabsTrigger value="notifications">
-              Notifications
-              <span className="ml-1 bg-red-500 text-white text-xs rounded-full px-1.5">3</span>
-            </TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
-          </TabsList>
+      
+      <div className="pt-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <DashboardHeader />
           
-          <TabsContent value="artworks">
-            <ArtworkManagement isLoading={isLoading} />
-          </TabsContent>
-          
-          <TabsContent value="pinned">
-            <PinnedArtworks />
-          </TabsContent>
-          
-          <TabsContent value="projects">
-            <ProjectManagement />
-          </TabsContent>
-          
-          <TabsContent value="messages">
-            <Card className="p-6">
+          <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
+            <TabsList className="grid grid-cols-4 lg:grid-cols-8 w-full mb-8">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="artworks">Artworks</TabsTrigger>
+              <TabsTrigger value="orders">Orders</TabsTrigger>
+              <TabsTrigger value="wallet">Wallet</TabsTrigger>
+              <TabsTrigger value="reviews">Reviews</TabsTrigger>
+              <TabsTrigger value="badges">Badges</TabsTrigger>
+              <TabsTrigger value="messages">Messages</TabsTrigger>
+              <TabsTrigger value="settings">Settings</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="overview" className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Card>
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
+                    <p className="text-gray-600">Welcome to your artist dashboard! Start by uploading your artworks and completing your profile.</p>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
+                    <div className="space-y-2">
+                      <button 
+                        onClick={() => setActiveTab("artworks")}
+                        className="block w-full text-left p-2 hover:bg-gray-50 rounded"
+                      >
+                        Upload New Artwork
+                      </button>
+                      <button 
+                        onClick={() => setActiveTab("orders")}
+                        className="block w-full text-left p-2 hover:bg-gray-50 rounded"
+                      >
+                        Check New Orders
+                      </button>
+                      <button 
+                        onClick={() => setActiveTab("settings")}
+                        className="block w-full text-left p-2 hover:bg-gray-50 rounded"
+                      >
+                        Complete Profile
+                      </button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="artworks">
+              <ArtworkManagement />
+            </TabsContent>
+
+            <TabsContent value="orders">
+              <CommissionsOrders />
+            </TabsContent>
+
+            <TabsContent value="wallet">
+              <ArtistWallet />
+            </TabsContent>
+
+            <TabsContent value="reviews">
+              <ReviewsRatings />
+            </TabsContent>
+
+            <TabsContent value="badges">
+              <BadgesRecognition />
+            </TabsContent>
+
+            <TabsContent value="messages">
               <MessagingModule />
-            </Card>
-          </TabsContent>
-          
-          <TabsContent value="earnings">
-            <EarningsAnalysis />
-          </TabsContent>
-          
-          <TabsContent value="profile">
-            <ArtistProfile isLoading={isLoading} />
-          </TabsContent>
-          
-          <TabsContent value="promotions">
-            <ArtistPromotions isLoading={isLoading} />
-          </TabsContent>
-          
-          <TabsContent value="notifications">
-            <ArtistNotifications isLoading={isLoading} />
-          </TabsContent>
-          
-          <TabsContent value="settings">
-            <ArtistSettings isLoading={isLoading} />
-          </TabsContent>
-        </Tabs>
+            </TabsContent>
+
+            <TabsContent value="settings">
+              <ArtistSettings />
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
+      
       <Footer />
     </div>
   );

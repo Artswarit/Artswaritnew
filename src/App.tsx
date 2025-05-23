@@ -5,7 +5,10 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/hooks/useAuth";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
+import Auth from "./pages/Auth";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Explore from "./pages/Explore";
@@ -28,25 +31,56 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/explore" element={<Explore />} />
-            <Route path="/categories" element={<Categories />} />
-            <Route path="/artist/:id" element={<ArtistProfile />} />
-            <Route path="/client-dashboard" element={<ClientDashboard />} />
-            <Route path="/artist-dashboard" element={<ArtistDashboard />} />
-            <Route path="/artist-dashboard/:tab" element={<ArtistDashboard />} />
-            <Route path="/artist-dashboard/upload" element={<ArtistDashboard />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/explore" element={<Explore />} />
+              <Route path="/categories" element={<Categories />} />
+              <Route path="/artist/:id" element={<ArtistProfile />} />
+              <Route 
+                path="/client-dashboard" 
+                element={
+                  <ProtectedRoute>
+                    <ClientDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/artist-dashboard" 
+                element={
+                  <ProtectedRoute>
+                    <ArtistDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/artist-dashboard/:tab" 
+                element={
+                  <ProtectedRoute>
+                    <ArtistDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/artist-dashboard/upload" 
+                element={
+                  <ProtectedRoute>
+                    <ArtistDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
