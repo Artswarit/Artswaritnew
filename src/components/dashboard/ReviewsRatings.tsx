@@ -110,7 +110,6 @@ const ReviewsRatings = () => {
   const getRatingDistribution = () => {
     const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
     reviews.forEach(review => {
-      // Fix: Use numeric key directly since rating is already a number
       if (review.rating >= 1 && review.rating <= 5) {
         distribution[review.rating as keyof typeof distribution]++;
       }
@@ -162,7 +161,7 @@ const ReviewsRatings = () => {
                     <div
                       className="bg-yellow-400 h-2 rounded-full"
                       style={{
-                        width: `${reviews.length > 0 ? (distribution[rating as keyof typeof distribution] / reviews.length) * 100 : 0}%`
+                        width: `${reviews.length > 0 ? ((distribution[rating as keyof typeof distribution] / reviews.length) * 100).toString() : '0'}%`
                       }}
                     />
                   </div>
