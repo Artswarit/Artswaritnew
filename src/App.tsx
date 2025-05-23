@@ -25,32 +25,30 @@ const queryClient = new QueryClient({
   },
 });
 
-const App = () => {
+function App() {
   return (
-    <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/explore" element={<Explore />} />
-              <Route path="/categories" element={<Categories />} />
-              <Route path="/artist/:id" element={<ArtistProfile />} />
-              <Route path="/client-dashboard" element={<ClientDashboard />} />
-              <Route path="/artist-dashboard" element={<ArtistDashboard />} />
-              <Route path="/artist-dashboard/:tab" element={<ArtistDashboard />} />
-              <Route path="/artist-dashboard/upload" element={<ArtistDashboard />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </QueryClientProvider>
-    </React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/artist/:id" element={<ArtistProfile />} />
+            <Route path="/client-dashboard" element={<ClientDashboard />} />
+            <Route path="/artist-dashboard" element={<ArtistDashboard />} />
+            <Route path="/artist-dashboard/:tab" element={<ArtistDashboard />} />
+            <Route path="/artist-dashboard/upload" element={<ArtistDashboard />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
   );
-};
+}
 
 export default App;
